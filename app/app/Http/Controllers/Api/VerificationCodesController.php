@@ -15,7 +15,7 @@ class VerificationCodesController extends Controller
 
 
         if(!app()->environment('production')){
-            $code = 1234;
+            $code = '1234';
         }else{
             //生成随机数
             $code = str_pad(random_int(1,9999), 4, 0, STR_PAD_LEFT);
@@ -30,12 +30,11 @@ class VerificationCodesController extends Controller
             }
         }
 
-
         //code存入缓存
         $key = "verificationCode_". str_random(15);
         $expireAt = now()->addMinutes(10);
         //缓存验证码，10分钟过期
-        \Cache::put($key, ['mobile'=>$mobile, 'code'=>$code], $expireAt);
+        \Cache::put($key, ['phone'=>$mobile, 'code'=>$code], $expireAt);
 
         return $this->response->array([
             'key' => $key,

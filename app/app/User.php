@@ -13,7 +13,6 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
     use HasRoles;
 
-    protected $table = 'fang_user';
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +20,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'weixin_session_key', 'weapp_openid'
+        'name', 'email', 'password', 'phone'
     ];
 
     /**

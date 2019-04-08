@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\UserRequest;
+use App\Transformers\UserTransformer;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,6 @@ class UsersController extends Controller
 
         \Cache::forget($request->verification_key);
 
-        return $this->response->created();
+        return $this->response->item($user, new UserTransformer)->setStatusCode(201);
     }
 }

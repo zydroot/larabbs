@@ -11,7 +11,7 @@ class VerificationCodesController extends Controller
     //
     public function store(VerificationCodeRequest $request, EasySms $easySms){
 
-        $mobile = $request->mobile;
+        $phone = $request->mobile;
 
 
         if(!app()->environment('production')){
@@ -21,7 +21,7 @@ class VerificationCodesController extends Controller
             $code = str_pad(random_int(1,9999), 4, 0, STR_PAD_LEFT);
             //发送短信
             try{
-                $result = $easySms->send($mobile, [
+                $result = $easySms->send($phone, [
                     'content'=>"您的验证码是{$code}。如非本人操作，请忽略本短信"
                 ]);
             } catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $exception){
@@ -33,8 +33,9 @@ class VerificationCodesController extends Controller
         //code存入缓存
         $key = "verificationCode_". str_random(15);
         $expireAt = now()->addMinutes(10);
+
         //缓存验证码，10分钟过期
-        \Cache::put($key, ['phone'=>$mobile, 'code'=>$code], $expireAt);
+        \Cache::put($key, ['phone'=>$phone, 'code'=>$code], $expireAt);
 
         return $this->response->array([
             'key' => $key,

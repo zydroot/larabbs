@@ -10,7 +10,7 @@ return [
 
         // 默认可用的发送网关
         'gateways' => [
-            'yunpian',
+            'errorlog',
         ],
     ],
     // 可用的网关配置

@@ -57,6 +57,9 @@ $api->version('v1', [
         ], function($api){
             $api->get('user', "UsersController@me")
                 ->name('api.user.show');
+            // 图片资源
+            $api->post('images', "ImagesController@store")
+                ->name('api.images.store');
         });
     });
 

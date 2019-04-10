@@ -17,6 +17,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
+    'middleware' => 'serializer:array'
 ], function($api) {
     $api->get('version', function() {
         dd(\Auth::gurad('api'));
@@ -49,6 +50,14 @@ $api->version('v1', [
         // 删除 token
         $api->delete('authorizations/current', 'AuthorizationsController@destroy')
             ->name('api.authorizations.destroy');
+
+        // 需要token验证的接口
+        $api->group([
+            'middleware'=>'api.auth',
+        ], function($api){
+            $api->get('user', "UsersController@me")
+                ->name('api.user.show');
+        });
     });
 
 

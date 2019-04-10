@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class AuthorizationsController extends Controller
 {
     public function socialStore($type, SocialAuthorizationRequest $request){
+
         if(!in_array($type, ['weixin'])){
             return $this->response->errorBadRequest();
         }
@@ -33,7 +34,7 @@ class AuthorizationsController extends Controller
 
         switch($type){
             case 'weixin':
-                $unionid = $oauthUser->offsetExist('unionid') ? $oauthUser->offsetGet('unionid'): null;
+                $unionid = $oauthUser->offsetExists('unionid') ? $oauthUser->offsetGet('unionid'): null;
 
                 if($unionid){
                     $user  = User::where('weixin_unionid', $unionid)->first();
@@ -42,7 +43,7 @@ class AuthorizationsController extends Controller
                 }
 
                 // 没有用户，默认创建一个用户
-                if(!user){
+                if(!$user){
                     $user = User::create([
                         'name' => $oauthUser->getNickname(),
                         'avatar' => $oauthUser->getAvatar(),

@@ -63,7 +63,13 @@ $api->version('v1', [
             // 图片资源
             $api->post('images', "ImagesController@store")
                 ->name('api.images.store');
+
+            $api->post('Topics', 'TopicsController@store')
+                ->name('api.topics.store');
         });
+
+        $api->get('categories', 'CategoriesController@index')
+            ->name('api.categories.index');
     });
 
 

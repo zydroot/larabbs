@@ -20,13 +20,13 @@ $api->version('v1', [
     'middleware' => 'serializer:array'
 ], function($api) {
     $api->get('version', function() {
-        dd(\Auth::gurad('api'));
+        //dd(\Auth::guard('api'));
         return response('this is version v1');
     });
     $api->group([
-        'middleware' => 'api.throttle',
-        'limit'  => config('api.rate_limits.sign.limit'),
-        'expires' => config('api.rate_limits.sign.expires')
+        //'middleware' => 'api.throttle',
+        //'limit'  => config('api.rate_limits.sign.limit'),
+        //'expires' => config('api.rate_limits.sign.expires')
     ],function($api){
         // 短信验证码
         $api->post('verificationCodes', "VerificationCodesController@store")
@@ -63,8 +63,8 @@ $api->version('v1', [
             // 图片资源
             $api->post('images', "ImagesController@store")
                 ->name('api.images.store');
-
-            $api->post('Topics', 'TopicsController@store')
+            // 话题资源
+            $api->post('topics', 'TopicsController@store')
                 ->name('api.topics.store');
         });
 

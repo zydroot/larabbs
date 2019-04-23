@@ -17,16 +17,16 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
-    'middleware' => 'serializer:array'
+    'middleware' => ['serializer:array', 'bindings']
 ], function($api) {
     $api->get('version', function() {
         //dd(\Auth::guard('api'));
         return response('this is version v1');
     });
     $api->group([
-        //'middleware' => 'api.throttle',
-        //'limit'  => config('api.rate_limits.sign.limit'),
-        //'expires' => config('api.rate_limits.sign.expires')
+        'middleware' => 'api.throttle',
+        'limit'  => config('api.rate_limits.sign.limit'),
+        'expires' => config('api.rate_limits.sign.expires')
     ],function($api){
         // 短信验证码
         $api->post('verificationCodes', "VerificationCodesController@store")
@@ -66,6 +66,10 @@ $api->version('v1', [
             // 话题资源
             $api->post('topics', 'TopicsController@store')
                 ->name('api.topics.store');
+            // 修改话题
+            $api->patch('topics/{topic}', 'TopicsController@update')
+                ->name('api.topics.update');
+
         });
 
         $api->get('categories', 'CategoriesController@index')
@@ -80,3 +84,4 @@ $api->version('v2', function($api) {
         return response('this is version v2');
     });
 });
+

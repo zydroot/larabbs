@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Api\TopicRequest;
 use App\Models\Topic;
 use App\Transformers\TopicTransformer;
+use App\User;
 use Illuminate\Http\Request;
 
 class TopicsController extends Controller
@@ -20,7 +21,7 @@ class TopicsController extends Controller
 
     public function update(TopicRequest $request, Topic $topic){
         //dd($request->all());
-        
+
         $this->authorize('update', $topic);
         $topic->update($request->all());
         return $this->response->item($topic, new TopicTransformer());
@@ -28,10 +29,40 @@ class TopicsController extends Controller
 
     public function destroy(Topic $topic){
 
-
         $this->authorize('delete', $topic);
 
         $topic->delete();
         return $this->response->noContent();
+    }
+
+    public function index(Request $request, Topic $topic){
+
+        $query = $topic->query();
+
+        if($categoryId = $topic->category_id){
+            $query -> where('category_id', $categoryId);
+        }
+        // 为了说明 N+1问题，不使用 scopeWithOrder
+
+        switch ($request->order){
+            case 'recent':
+                $query->recent();
+                break;
+            default:
+                $query->recentReplied();
+                break;
+        }
+
+
+        $topics = $query->paginate(20);
+
+        return $this->response->paginator($topics, new TopicTransformer());
+    }
+
+    public function userIndex(User $user, Request $request){
+        $topics = $user->topics()->recent()
+            ->paginate(20);
+
+        return $this->response->paginator($topics, new TopicTransformer());
     }
 }

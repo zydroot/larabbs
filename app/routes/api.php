@@ -73,4 +73,6 @@ $api->version('v2', function($api) {
     $api->get('version', function() {
         return response('this is version v2');
     });
+
+    $api->get('test', 'App\Http\Controllers\Api\v2\TestController@index');
 });

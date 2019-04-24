@@ -23,19 +23,19 @@ class TopicRequest extends \Dingo\Api\Http\FormRequest
     public function rules()
     {
 
-        switch ($this->method()){
+        switch($this->method()) {
             case 'POST':
                 return [
                     'title' => 'required|string',
-                    'body'  => 'required|string',
-                    'category_id' => 'required|exists:categories,id'
+                    'body' => 'required|string',
+                    'category_id' => 'required|exists:categories,id',
                 ];
                 break;
             case 'PATCH':
                 return [
                     'title' => 'string',
-                    'body'  => 'string',
-                    'category_id' => 'exists:categories,id'
+                    'body' => 'string',
+                    'category_id' => 'exists:categories,id',
                 ];
                 break;
         }

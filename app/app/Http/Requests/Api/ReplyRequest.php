@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Api;
 
 
-class CaptchaRequest extends FormRequest
+class ReplyRequest extends FormRequest
 {
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -13,7 +14,7 @@ class CaptchaRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone'=>"required|regex:/^1[356789]\d{9}$/|unique:users"
+            'content'  => "required|min:2",
         ];
     }
 }

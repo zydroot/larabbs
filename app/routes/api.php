@@ -73,6 +73,14 @@ $api->version('v1', [
             $api->delete('topics/{topic}', "TopicsController@destroy")
                 ->name('api.topics.destroy');
 
+
+            // 新增回复
+            $api->post('topics/{topic}/replies', "RepliesController@store")
+                ->name('api.topics.replies.store');
+            // 删除回复
+            $api->delete('topics/{topic}/replies/{reply}', "RepliesController@destroy")
+                ->name('api.topics.replies.destroy');
+
         });
 
         // 游客可以访问
@@ -80,6 +88,8 @@ $api->version('v1', [
             ->name('api.categories.index');
         $api->get('topics', 'TopicsController@index')
             ->name('api.topics.index');
+        $api->get('topics/{topic}', "TopicsController@show")
+            ->name('api.topics.show');
         $api->get('users/{user}/topics', "TopicsController@userIndex")
             ->name('api.users.topics.index');
 

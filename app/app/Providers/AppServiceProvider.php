@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \App\Models\Reply::observe(\App\Observers\Api\ReplyObserver::class);
+
     }
 }

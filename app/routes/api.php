@@ -86,6 +86,9 @@ $api->version('v1', [
             // 某个用户的回复列表
             $api->get('users/{user}/replies', "RepliesController@userIndex")
                 ->name('api.users.replies.index');
+            // 登录用户查看自己收到的通知
+            $api->get('user/notifications', "NotificationsController@index")
+                ->name('api.user.notifications.index');
 
         });
 

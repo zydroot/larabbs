@@ -36,6 +36,7 @@ class TopicReplied extends Notification
     }
 
     public function toDatabase($notifiable){
+        // 整理，存入data字段中
         $topic = $this->reply->topic;
         $link = $topic->link(['#reply'. $this->reply->id]);
 
@@ -52,16 +53,4 @@ class TopicReplied extends Notification
         ];
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
 }
